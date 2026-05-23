@@ -170,7 +170,7 @@ window.onload = typeEffect;
       moviesDiv.innerHTML = "";
 
       try {
-        const res = await fetch(`http://localhost:5000/api/movies/recommend?mood=${mood}`);
+        const res = await fetch(`https://cinesense-ai-a614.onrender.com/api/movies/recommend?mood=${mood}`);
         const data = await res.json();
 
         if (!data.results || data.results.length === 0) {

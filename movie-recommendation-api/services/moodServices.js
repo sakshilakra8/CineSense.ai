@@ -13,7 +13,8 @@ const keywordMap = {
   romantic: "romance",
   scared: "horror",
   excited: "action",
-  bored: "fun"
+  bored: "fun",
+  documentary: "documentary"
 };
 
 const detectMood = (text) => {
