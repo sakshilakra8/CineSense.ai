@@ -1,0 +1,24 @@
+{
+  "name": "movie-recommendation-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "movie-recommendation-api/app.js",
+  "scripts": {
+    "start": "node movie-recommendation-api/app.js",
+    "dev": "nodemon movie-recommendation-api/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.16.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "openai": "^6.39.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

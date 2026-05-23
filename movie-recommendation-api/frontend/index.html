@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Recommender</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+.logo {
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: #ffffff;
+}
+    .input-box {
+      margin-top: 30px;
+    }
+
+    input {
+      padding: 12px;
+      width: 300px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 20px;
+      border-radius: 25px;
+      border: none;
+      background: #e50914;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff1e1e;
+      transform: scale(1.05);
+    }
+
+    .movies {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+      padding: 10px;
+    }
+
+ .card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  padding: 15px;
+
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+}
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.03);
+    }
+.logo {
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: #e50914;
+}
+    img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .title {
+      font-size: 18px;
+      margin: 10px 0 5px;
+    }
+
+    .year {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #e50914;
+      font-weight: bold;
+    }
+
+    .status {
+      margin-top: 30px;
+      font-size: 18px;
+      color: #ddd;
+    }
+    #subtitle {
+  color: #ccc;
+  margin-top: 10px;
+  min-height: 20px;
+}
+  </style>
+</head>
+
+<body>
+
+<h1 class="logo">🎬CineSense<span>.ai</span></h1>
+<p id="subtitle"></p>
+
+  <div class="input-box">
+  <input type="text" id="mood" placeholder="e.g. I feel lonely..." />
+  <br><br>
+  <button onclick="getMovies()">Search</button>
+</div>
+  <div class="status" id="status"></div>
+  <div class="movies" id="movies"></div>
+
+  <script>
+    const text = "Discover movies based on your mood 🎥";
+let index = 0;
+
+function typeEffect() {
+  if (index < text.length) {
+    document.getElementById("subtitle").innerHTML += text.charAt(index);
+    index++;
+    setTimeout(typeEffect, 40);
+  }
+}
+
+window.onload = typeEffect;
+    async function getMovies() {
+      const mood = document.getElementById("mood").value;
+      const moviesDiv = document.getElementById("movies");
+      const statusDiv = document.getElementById("status");
+
+      if (!mood) {
+        statusDiv.innerHTML = "Please enter your mood 😊";
+        return;
+      }
+
+      statusDiv.innerHTML = "Finding movies for you...";
+      moviesDiv.innerHTML = "";
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/movies/recommend?mood=${mood}`);
+        const data = await res.json();
+
+        if (!data.results || data.results.length === 0) {
+          statusDiv.innerHTML = "No movies found 😔";
+          return;
+        }
+
+        statusDiv.innerHTML = `Showing results for: <b>${data.detected_mood}</b>`;
+
+        data.results.forEach(movie => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          card.innerHTML = `
+            <img src="${movie.poster}" />
+            <div class="title">${movie.title}</div>
+            <div class="year">${movie.year}</div>
+            <a href="${movie.imdb}" target="_blank">View on IMDb</a>
+          `;
+
+          card.style.animationDelay = `${Math.random() * 0.5}s`;
+moviesDiv.appendChild(card);
+        });
+
+      } catch (error) {
+        statusDiv.innerHTML = "Something went wrong ❌";
+      }
+    }
+
+    // Enter key support
+    document.getElementById("mood").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") getMovies();
+    });
+  </script>
+
+</body>
+</html>
