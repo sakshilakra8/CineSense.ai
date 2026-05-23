@@ -3,22 +3,24 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+
+const PORT = process.env.PORT || 5000;
 
 const movieRoutes = require("./routes/movieroutes");
 
+// middleware
+app.use(cors());
 app.use(express.json());
-app.use(require("cors")());
 
-// connect routes
+// routes
 app.use("/api/movies", movieRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
+// ✅ listen ONLY ONCE
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
