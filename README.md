@@ -8,8 +8,8 @@ Instead of browsing endlessly, users can simply type how they feel (e.g., "I fee
 
 ## 🚀 Live Demo
 
-🌐 Frontend: https://your-netlify-link  
-⚙️ Backend API: https://your-render-link  
+🌐 Frontend: https://cinesenseai.netlify.app/ 
+⚙️ Backend API: https://cinesense-ai-a614.onrender.com
 
 ---
 
